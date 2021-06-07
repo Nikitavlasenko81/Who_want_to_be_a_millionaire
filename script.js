@@ -128,14 +128,34 @@ const DATA = [
 const myModal = new bootstrap.Modal(document.querySelector(".myModal"))
 const questionAndAnswers = document.querySelector('.questionAndAnswers');
 const scoreCounter = document.querySelector('.score_counter')
+const point = scoreCounter.querySelectorAll('li')
 
 const pointsDisplayShow = (index = 0)=>{
-    scoreCounter.querySelectorAll('li')[index].classList.add('active')
+    point[index].classList.add('active')
+    point[index - 1].classList.remove('active')
+    if(index === 1){
+        scoreCounter.querySelectorAll('li')[index].classList.add('fireproof-amount')
+        document.querySelector(".result").innerHTML = `Вы проиграли, осталась несгораеммая сумма 1000$`
+    }
 }
 const pointsDisplayRemove = ()=>{
     for (let i = 0;i < DATA.length;i++){
         scoreCounter.querySelectorAll('li')[i].classList.remove('active')
+        scoreCounter.querySelectorAll('li')[i].classList.remove('fireproof-amount')
     }
+}
+const callFriend = (index)=>{
+    let answer;
+    DATA[index].answers.map((el)=>{
+        if(JSON.parse(el.correct)){
+            answer = el.value
+        }
+    })
+    alert(`Ваш друг думает что ваниаент ответа ${answer}`)
+}
+
+const end = ()=>{
+    document.querySelector(".result").innerHTML = `Вы выиграли 100000$`
 }
 
 const renderQuestions = (index) =>{
@@ -145,11 +165,15 @@ const renderQuestions = (index) =>{
         return DATA[index].answers.map((el)=>{
             return (
                 `
-		<div class="col-6 answer text-center mb-4">
+		<!--<div class="col-6 answer text-center mb-4 radio-toolbar">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="inlineRadioOptions ${index}" id="inlineRadio1" value="option1 ${el.id}" data-correct="${el.correct}">
                 <label class="form-check-label" for="inlineRadio1">${el.value}</label>     
-            </div>
+            </div> 
+		</div>-->
+		
+		<div class="col-6 d-grid gap-2">
+		  <button class="btn btn-primary mb-4 answer" type="button" data-correct="${el.correct}">${el.value}</button>
 		</div>
             `
             )
@@ -157,9 +181,11 @@ const renderQuestions = (index) =>{
     }
     questionAndAnswers.innerHTML =
         `
-   <div class="row question">
+   <div class="row">
         <div class="col question text-center mb-4">
-            <p>${DATA[index].question}</p>
+        <div class="alert" role="alert">
+            ${DATA[index].question}
+        </div>
         </div>
     </div>
         <div class="row answers">
@@ -168,19 +194,16 @@ const renderQuestions = (index) =>{
     `
 };
 
-const renderResult = () =>{
 
-};
-
-questionAndAnswers.addEventListener('change',(e)=>{
-    //логика ответа
+questionAndAnswers.addEventListener('click',(e)=>{
     if(JSON.parse(e.target.getAttribute('data-correct'))){ // чтоб строка стала логическим false
         console.log("Это правильно")
         const nextQuestionIndex =  Number(questionAndAnswers.dataset.currentStep)+1
             if(DATA.length === nextQuestionIndex){
-                // end()
-                alert("конец")
+                 end()
+                myModal.show()
                 renderQuestions(0)
+                pointsDisplayRemove()
             }else{
                 renderQuestions(nextQuestionIndex)
                 pointsDisplayShow(questionAndAnswers.dataset.currentStep - 1)
@@ -193,19 +216,24 @@ questionAndAnswers.addEventListener('change',(e)=>{
     }
 
 })
+document.querySelector(".call").addEventListener('click',(e)=>{
+     callFriend(questionAndAnswers.getAttribute(`data-current-step`))
 
-questionAndAnswers.addEventListener('click',(e)=>{
-    //вперед или начало
-    const nextQuestionIndex =  Number(questionAndAnswers.dataset.currentStep+1)
-    if(e.target.classList.contains('btn-next')){
-        if(DATA.length === nextQuestionIndex){
-            // end()
-            alert("конец")
-    }else{
-            renderQuestions(nextQuestionIndex)
-        }
-    }
+
 })
+
+//questionAndAnswers.addEventListener('click',(e)=>{
+    //вперед или начало
+    //const nextQuestionIndex =  Number(questionAndAnswers.dataset.currentStep+1)
+    //if(e.target.classList.contains('btn-next')){
+      //  if(DATA.length === nextQuestionIndex){
+            // end()
+           // alert("конец")
+   // }else{
+          //  renderQuestions(nextQuestionIndex)
+     //   }
+   // }
+//})
 renderQuestions(0)
 
 
