@@ -144,14 +144,30 @@ const pointsDisplayRemove = ()=>{
         scoreCounter.querySelectorAll('li')[i].classList.remove('fireproof-amount')
     }
 }
-const callFriend = (index)=>{
+const callFriend = (index,event)=>{
     let answer;
     DATA[index].answers.map((el)=>{
-        if(JSON.parse(el.correct)){
+        if(el.correct){
             answer = el.value
         }
     })
     alert(`Ваш друг думает что ваниаент ответа ${answer}`)
+    event.target.classList.add('hide');
+}
+const helpOfAudience = (index,event)=>{
+    let answer;
+    DATA[index].answers.map((el)=>{
+        if(el.correct){
+            answer = el.value
+        }
+    })
+    alert(`Зал голосует за вариант ответа: ${answer}`)
+    event.target.classList.add('hide');
+}
+const showAllIcons = ()=>{
+    document.querySelectorAll(`.icons a img`).forEach((el)=>{
+        el.classList.remove('hide');
+    })
 }
 
 const end = ()=>{
@@ -195,8 +211,8 @@ const renderQuestions = (index) =>{
 };
 
 
-questionAndAnswers.addEventListener('click',(e)=>{
-    if(JSON.parse(e.target.getAttribute('data-correct'))){ // чтоб строка стала логическим false
+questionAndAnswers.addEventListener('click',(event)=>{
+    if(JSON.parse(event.target.getAttribute('data-correct'))){ // чтоб строка стала логическим false
         console.log("Это правильно")
         const nextQuestionIndex =  Number(questionAndAnswers.dataset.currentStep)+1
             if(DATA.length === nextQuestionIndex){
@@ -204,23 +220,40 @@ questionAndAnswers.addEventListener('click',(e)=>{
                 myModal.show()
                 renderQuestions(0)
                 pointsDisplayRemove()
+                showAllIcons()
             }else{
                 renderQuestions(nextQuestionIndex)
                 pointsDisplayShow(questionAndAnswers.dataset.currentStep - 1)
+
         }
     }else{
         console.log("!!!! No")
         myModal.show()
         renderQuestions(0)
         pointsDisplayRemove()
+        showAllIcons()
     }
 
 })
-document.querySelector(".call").addEventListener('click',(e)=>{
-     callFriend(questionAndAnswers.getAttribute(`data-current-step`))
+// document.querySelector(".call").addEventListener('click',(event)=>{
+//      callFriend(questionAndAnswers.getAttribute(`data-current-step`),event)
+//
+// })
+// document.querySelector(".helpOfAudience").addEventListener('click',(event)=>{
+//     helpOfAudience(questionAndAnswers.getAttribute(`data-current-step`),event)
+// })
 
+document.querySelectorAll(".icons a").forEach((el)=>{
+    el.addEventListener('click',(event)=>{
+        if(el.classList.contains('helpOfAudience')){
+            helpOfAudience(questionAndAnswers.getAttribute(`data-current-step`),event)
+        }else if(el.classList.contains('call')){
+            callFriend(questionAndAnswers.getAttribute(`data-current-step`),event)
+        }
 
 })
+})
+
 
 //questionAndAnswers.addEventListener('click',(e)=>{
     //вперед или начало

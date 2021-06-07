@@ -55,7 +55,9 @@ width: 100px;
     color: black;
 }
 
-
+.hide{
+    display: none;
+}
 
 
 
