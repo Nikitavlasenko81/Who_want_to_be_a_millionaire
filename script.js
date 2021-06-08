@@ -1,7 +1,3 @@
-var question = ['Что из этого не является косметическим средством?', 'Кто, в конце концов, скушал Колобка?','Какой шахматной фигуры не существует?'  ,'Что означает буква «О» в аббревиатуре ОРТ?','Главный герой в романе Ф. И. Достоевского «Преступление и наказание»','В состав любого органического вещества входит…','Какое слово здесь лишнее?','Как назывался самый младший гражданский чин, присваивавшийся согласно Табели о рангах?','Кто изобрел громоотвод?','Как в России в 15-17вв. назывались феодально-зависимые люди, не имевшие своего хозяйства, жившие и работавшие во дворах крестьян или посадских людей?','В каком городе находится штаб-квартира Microsoft?','При каком правителе к России была присоединена территория Финляндии?','Ричард Львиное Сердце был пленен во время','Известно, что в кириллице многие буквы имели и цифровое значение. Чему равна буква К (како)?','Кто такой «молотоглав»?'];
-var answer = ['Помада','Татуировка','Крем','Пудра',  'Дед','Баба','Заяц','Лиса', 'Пешка','Конь','Король','Дама', 'Олигархическое','Объективное','Общественное','Однообразное', 'Расторгуев','Чикатило','Тумбочкин','Раскольников', 'кислород','углерод','водород','азот', 'Автор','Товар ','Отвар','Ворот', 'Синодский регистратор','Провинциальный секретарь','Коллежский регистратор','Кабинетский регистратор', 'Франклин','Рузвельт','Вашингтон','Линкольн', 'Дворовые','Захребетники','Нахлебники','Бестягольные', 'Нью-Йорк','Ричмонд','Новый Орлеан','Сиэтл', 'Петр I','Екатерина II','Павел I','Александр I', 'крестового похода','столетней войны','войны алой и белой розы','войны за независимость', '10','20','70','90', 'Рыба','Птица','Змея','Насекомое'];
-var key = [1, 3, 3,  2, 3, 1, 3, 2, 0, 1, 1, 3, 0, 1, 1];
-
 const DATA = [
     {
         question: 'Что из этого не является косметическим средством?',
@@ -55,22 +51,22 @@ const DATA = [
     {question: 'Какой шахматной фигуры не существует?',
         answers:[
             {
-                id: 5,
+                id: 9,
                 value: `Пешка`,
                 correct: false,
             },
             {
-                id: 6,
+                id: 10,
                 value: 'Конь',
                 correct: true,
             },
             {
-                id: 7,
+                id: 11,
                 value: 'Король',
                 correct: false,
             },
             {
-                id: 8,
+                id: 12,
                 value: 'Дама',
                 correct: false,
             },
@@ -79,22 +75,22 @@ const DATA = [
     {question: 'Что означает буква «О» в аббревиатуре ОРТ?',
         answers:[
             {
-                id: 5,
+                id: 13,
                 value: `Олигархическое`,
                 correct: false,
             },
             {
-                id: 6,
+                id: 14,
                 value: 'Объективное',
                 correct: false,
             },
             {
-                id: 7,
+                id: 15,
                 value: 'Общественное',
                 correct: true,
             },
             {
-                id: 8,
+                id: 16,
                 value: 'Однообразное',
                 correct: false,
             },
@@ -103,39 +99,293 @@ const DATA = [
     {question: 'Главный герой в романе Ф. И. Достоевского «Преступление и наказание»',
         answers:[
             {
-                id: 5,
+                id: 17,
                 value: `Расторгуев`,
                 correct: false,
             },
             {
-                id: 6,
+                id: 18,
                 value: 'Чикатило',
                 correct: false,
             },
             {
-                id: 7,
+                id: 19,
                 value: 'Тумбочкин',
                 correct: false,
             },
             {
-                id: 8,
+                id: 20,
                 value: 'Раскольников',
                 correct: true,
             },
         ]
-    }
+    },
+    {question: 'Как назывался первый советский фильм-катастрофа?',
+        answers:[
+            {
+                id: 21,
+                value: `34-й скорый`,
+                correct: false,
+            },
+            {
+                id: 22,
+                value: 'Экипаж',
+                correct: true,
+            },
+            {
+                id: 23,
+                value: 'Потерялся слон',
+                correct: false,
+            },
+            {
+                id: 24,
+                value: 'Воспоминания о будущем',
+                correct: true,
+            },
+        ]
+    },
+    {question: 'Какой газ преобладает в атмосфере Земли?',
+        answers:[
+            {
+                id: 25,
+                value: `Кислород`,
+                correct: false,
+            },
+            {
+                id: 26,
+                value: 'Водород',
+                correct: false,
+            },
+            {
+                id: 27,
+                value: 'Углекислый газ',
+                correct: false,
+            },
+            {
+                id: 28,
+                value: 'Азот',
+                correct: true,
+            },
+        ]
+    },
+    {
+        question: 'Как называется крепкий спиртной напиток из сока сахарного тростника?',
+        answers:[
+            {
+                id: 29,
+                value: 'Кальвадос',
+                correct: false,
+            },
+            {
+                id: 30,
+                value: 'Ром',
+                correct: true,
+            },
+            {
+                id: 31,
+                value: 'Джин',
+                correct: false,
+            },
+            {
+                id: 32,
+                value: 'Виски',
+                correct: false,
+            },
+        ]
+    },
+    {question: 'Какую птицу американцы традиционно готовят на День Благодарения?',
+        answers:[
+            {
+                id: 33,
+                value: `Курицу`,
+                correct: false,
+            },
+            {
+                id: 34,
+                value: 'Гуся',
+                correct: false,
+            },
+            {
+                id: 35,
+                value: 'Утку',
+                correct: true,
+            },
+            {
+                id: 36,
+                value: 'Индейку',
+                correct: true,
+            },
+        ]
+    },
+    {question: 'Какого цвета нет на государственном флаге Армении?',
+        answers:[
+            {
+                id: 37,
+                value: `Красного`,
+                correct: false,
+            },
+            {
+                id: 38,
+                value: 'Синего',
+                correct: false,
+            },
+            {
+                id: 39,
+                value: 'Оранжевого',
+                correct: false,
+            },
+            {
+                id: 40,
+                value: 'Белого',
+                correct: true,
+            },
+        ]
+    },
+    {question: 'Какой город считается родиной джаза?',
+        answers:[
+            {
+                id: 41,
+                value: `Чикаго`,
+                correct: false,
+            },
+            {
+                id: 42,
+                value: 'Нью-Йорк',
+                correct: false,
+            },
+            {
+                id: 43,
+                value: 'Новый Орлеан',
+                correct: true,
+            },
+            {
+                id: 44,
+                value: 'Одесса',
+                correct: false,
+            },
+        ]
+    },
+    {question: 'Премьера какой программы состоялась 1 января 1968 года?',
+        answers:[
+            {
+                id: 45,
+                value: `«Время»`,
+                correct: true,
+            },
+            {
+                id: 46,
+                value: '«Голубой огонёк»',
+                correct: false,
+            },
+            {
+                id: 47,
+                value: '«Кинопанорама»',
+                correct: false,
+            },
+            {
+                id: 48,
+                value: '«Очевидное-невероятное»',
+                correct: true,
+            },
+        ]
+    },
+    {question: 'Какой камень венчает Большую императорскую корону Российской империи, хранящуюся в Алмазном фонде?',
+        answers:[
+            {
+                id: 49,
+                value: `Алмаз`,
+                correct: false,
+            },
+            {
+                id: 50,
+                value: 'Сапфир',
+                correct: false,
+            },
+            {
+                id: 51,
+                value: 'Благородная шпинель',
+                correct: true,
+            },
+            {
+                id: 52,
+                value: 'Рубин',
+                correct: false,
+            },
+        ]
+    },
+    {question: 'Что в свободное время мастерил химик Д. И. Менделеев?',
+        answers:[
+            {
+                id: 53,
+                value: `Игрушки`,
+                correct: false,
+            },
+            {
+                id: 54,
+                value: 'Табуретки',
+                correct: false,
+            },
+            {
+                id: 55,
+                value: 'Прялки',
+                correct: false,
+            },
+            {
+                id: 56,
+                value: 'Чемоданы',
+                correct: true,
+            },
+        ]
+    },
+    {question: 'С какой фигуры начинаются соревнования по городошному спорту?',
+        answers:[
+            {
+                id: 57,
+                value: `Часовые`,
+                correct: false,
+            },
+            {
+                id: 58,
+                value: 'Артиллерия',
+                correct: false,
+            },
+            {
+                id: 59,
+                value: 'Пулемётное гнездо',
+                correct: false,
+            },
+            {
+                id: 60,
+                value: 'Пушка',
+                correct: true,
+            },
+        ]
+    },
 ]
 const myModal = new bootstrap.Modal(document.querySelector(".myModal"))
 const questionAndAnswers = document.querySelector('.questionAndAnswers');
 const scoreCounter = document.querySelector('.score_counter')
 const point = scoreCounter.querySelectorAll('li')
+const result = document.querySelector(".result")
+function random(min, max) {
+    let rand = min + Math.random() * (max + 1 - min);
+    return Math.floor(rand);
+}
 
-const pointsDisplayShow = (index = 0)=>{
+
+const pointsDisplayShow = (index )=>{
     point[index].classList.add('active')
     point[index - 1].classList.remove('active')
-    if(index === 1){
+    if(index >= 0){
+        result.innerHTML = `Вы проиграли!`
+    }
+    if(index === 4){
         scoreCounter.querySelectorAll('li')[index].classList.add('fireproof-amount')
-        document.querySelector(".result").innerHTML = `Вы проиграли, осталась несгораеммая сумма 1000$`
+        result.innerHTML = `Вы проиграли, осталась несгораеммая сумма 1 000$`
+    }
+    if(index === 9){
+        scoreCounter.querySelectorAll('li')[index].classList.add('fireproof-amount')
+        result.innerHTML = `Вы проиграли, осталась несгораеммая сумма 32 000$`
     }
 }
 const pointsDisplayRemove = ()=>{
@@ -144,16 +394,19 @@ const pointsDisplayRemove = ()=>{
         scoreCounter.querySelectorAll('li')[i].classList.remove('fireproof-amount')
     }
 }
-const callFriend = (index,event)=>{
-    let answer;
-    DATA[index].answers.map((el)=>{
-        if(el.correct){
-            answer = el.value
+const callFriend = (index,event)=> {
+    let correct;
+    DATA[index].answers.map((el) => {
+        if (el.correct) {
+            correct = el.value
         }
     })
-    alert(`Ваш друг думает что ваниаент ответа ${answer}`)
-    event.target.classList.add('hide');
+        let answer = Math.random() < 0.5 ? DATA[index].answers[random(0, 3)].value : correct;
+        alert(`Алло, Привет, я думаю вариант ${answer}, но я не уверен`)
+        event.target.hidden = true;
 }
+
+
 const helpOfAudience = (index,event)=>{
     let answer;
     DATA[index].answers.map((el)=>{
@@ -162,16 +415,31 @@ const helpOfAudience = (index,event)=>{
         }
     })
     alert(`Зал голосует за вариант ответа: ${answer}`)
-    event.target.classList.add('hide');
+    event.target.hidden = true;
 }
+
+const fiftyFifty = (index,event) => {
+    let wrongIndex = [];
+    let elements = document.querySelectorAll(`.answer`);
+    for(let i = 0 ; i < elements.length; i++){
+        if(!JSON.parse(elements[i].getAttribute('data-correct'))){
+            wrongIndex.push(i);
+        }
+    }
+    for(let i = 0; i < 2; i++){
+        elements[wrongIndex[i]].hidden = true;
+    }
+    event.target.hidden = true;
+}
+
 const showAllIcons = ()=>{
     document.querySelectorAll(`.icons a img`).forEach((el)=>{
-        el.classList.remove('hide');
+        el.hidden = false;
     })
 }
 
 const end = ()=>{
-    document.querySelector(".result").innerHTML = `Вы выиграли 100000$`
+    result.innerHTML = `Вы выиграли 1 000 000$`
 }
 
 const renderQuestions = (index) =>{
@@ -216,7 +484,7 @@ questionAndAnswers.addEventListener('click',(event)=>{
         console.log("Это правильно")
         const nextQuestionIndex =  Number(questionAndAnswers.dataset.currentStep)+1
             if(DATA.length === nextQuestionIndex){
-                 end()
+                end()
                 myModal.show()
                 renderQuestions(0)
                 pointsDisplayRemove()
@@ -224,10 +492,8 @@ questionAndAnswers.addEventListener('click',(event)=>{
             }else{
                 renderQuestions(nextQuestionIndex)
                 pointsDisplayShow(questionAndAnswers.dataset.currentStep - 1)
-
         }
     }else{
-        console.log("!!!! No")
         myModal.show()
         renderQuestions(0)
         pointsDisplayRemove()
@@ -249,6 +515,8 @@ document.querySelectorAll(".icons a").forEach((el)=>{
             helpOfAudience(questionAndAnswers.getAttribute(`data-current-step`),event)
         }else if(el.classList.contains('call')){
             callFriend(questionAndAnswers.getAttribute(`data-current-step`),event)
+        }else if(el.classList.contains('50-50')){
+            fiftyFifty(questionAndAnswers.getAttribute(`data-current-step`),event)
         }
 
 })
@@ -267,7 +535,7 @@ document.querySelectorAll(".icons a").forEach((el)=>{
      //   }
    // }
 //})
-renderQuestions(0)
+renderQuestions(0);
 
 
 

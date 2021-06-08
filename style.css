@@ -4,7 +4,7 @@ body{
     color: white;
 }
 .logo img{
-    width: 90%;
+    width: 100%;
     text-align: center;
 }
 .icon{
@@ -12,6 +12,9 @@ body{
 }
 .icon img{
 width: 100px;
+}
+.icon img:hover{
+    transform: scale(1.2);
 }
 
 .score_counter{
@@ -28,9 +31,10 @@ width: 100px;
     color: #000041;
 }
 .fireproof-amount {
-    color: #ff0000;
+    color: #00fa08;
     font-weight: bold;
     list-style-type: disc;
+
 }
 
 .question div{
@@ -51,12 +55,9 @@ width: 100px;
 .answer:hover{
     background-color: orange;
 }
-.modal{
+.modal-dialog{
     color: black;
-}
-
-.hide{
-    display: none;
+    background-image: url("Bg.jpg");
 }
 
 
