@@ -381,6 +381,8 @@ const scoreCounter = document.querySelector('.score_counter')
 const point = scoreCounter.querySelectorAll('li')
 const result = document.querySelector(".result")
 const fireproof = document.querySelector(".fireproof")
+const field = document.querySelector('.field')
+
 function random(min, max) {
     let rand = min + Math.random() * (max + 1 - min);
     return Math.floor(rand);
@@ -405,7 +407,8 @@ const pointsDisplayRemove = () => {
         scoreCounter.querySelectorAll('li')[i].classList.remove('fireproof-amount')
     }
 }
-const callFriend = (index, event) => {
+
+const callFriendShow = (index, event) => {
     let correct;
     DATA[index].answers.map((el) => {
         if (el.correct) {
@@ -413,19 +416,48 @@ const callFriend = (index, event) => {
         }
     })
     let answer = Math.random() < 0.5 ? DATA[index].answers[random(0, 3)].value : correct;
-    alert(`Алло, Привет, я думаю вариант ${answer}, но я не уверен`)
+    field.querySelector('img').hidden = true;
+    field.querySelector('h3').innerHTML = `
+           Алло, Привет, я думаю вариант " ${answer} ", но я не уверен...
+    `
     event.target.hidden = true;
 }
 
-const helpOfAudience = (index, event) => {
-    let answer;
+const callFriendHide = ()=>{
+    field.querySelector(`h3`).hidden = true;
+    field.querySelector(`img`).hidden = false;
+}
+
+const helpOfAudienceShow = (index, event) => {
+
+    const ratingElementCreate = (percent, value) => {
+        let rating = document.createElement('div')
+        rating.classList.add('progress-container', 'mb-4')
+        rating.innerHTML = `
+                            <h3>${value}</h3>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: ${percent}%" aria-valuenow="percent" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            `
+        return rating
+    }
+
     DATA[index].answers.map((el) => {
         if (el.correct) {
-            answer = el.value
+            field.append(ratingElementCreate(90, el.value))
+        } else {
+            field.append(ratingElementCreate(random(0, 80), el.value))
         }
     })
-    alert(`Зал голосует за вариант ответа: ${answer}`)
+    field.querySelector('img').hidden = true;
     event.target.hidden = true;
+}
+
+const helpOfAudienceHide = ()=>{
+    document.querySelectorAll(`.progress-container`).forEach((el)=>{
+        el.hidden = true;
+    })
+    document.querySelector(`.field img`).hidden = false;
 }
 
 const fiftyFifty = (index, event) => {
@@ -451,6 +483,7 @@ const showAllIcons = () => {
 const end = () => {
     result.innerHTML = `Вы выиграли 1 000 000$`
 }
+
 const writeResult = (index) => {
     if (index >= 0 && index < 4) {
         result.innerHTML = `Вы проиграли!!`
@@ -496,8 +529,10 @@ const renderQuestions = (index) => {
 };
 
 questionAndAnswers.addEventListener('click', (event) => {
-    if (JSON.parse(event.target.getAttribute('data-correct'))) {                                                             // чтоб строка стала логическим false
+    if (JSON.parse(event.target.getAttribute('data-correct'))) {                                                         // чтоб строка стала логическим false
         const nextQuestionIndex = Number(questionAndAnswers.dataset.currentStep) + 1
+        callFriendHide()
+        helpOfAudienceHide()                                                                                            //спрятать подсказку зала
         //если закончились вопросы
         if (DATA.length === nextQuestionIndex) {
             end()
@@ -508,43 +543,43 @@ questionAndAnswers.addEventListener('click', (event) => {
             showAllIcons()
         } else {
             //если ответ верный
-            questionAndAnswers.style.pointerEvents='none'                                                               //убираем кликабельность чтоб нельзя выбрать другие варианты
-            setTimeout(()=>{
-                    event.target.style.backgroundColor = 'green';
-            },1000)
+            questionAndAnswers.style.pointerEvents = 'none'                                                               //убираем кликабельность чтоб нельзя выбрать другие варианты
+            setTimeout(() => {
+                event.target.style.backgroundColor = 'green';
+            }, 1000)
 
-            setTimeout(()=>{
+            setTimeout(() => {
                 renderQuestions(nextQuestionIndex)
                 pointsDisplayShow(nextQuestionIndex)
                 writeResult(nextQuestionIndex)
-                questionAndAnswers.style.pointerEvents='auto'                                                           //возвращаем кликабельность
-            },3000)
+                questionAndAnswers.style.pointerEvents = 'auto'                                                           //возвращаем кликабельность
+            }, 3000)
         }
     } else {
         //если ответ неверный
-        questionAndAnswers.style.pointerEvents='none'
-        setTimeout(()=>{
+        questionAndAnswers.style.pointerEvents = 'none'
+        setTimeout(() => {
             event.target.style.backgroundColor = 'red';
-        },1000)
+        }, 1000)
 
-        setTimeout(()=>{
+        setTimeout(() => {
             writeResult(questionAndAnswers.getAttribute(`data-current-step`))
             myModal.show()
             renderQuestions(0)
             pointsDisplayRemove()
             pointsDisplayShow(0)
             showAllIcons()
-            questionAndAnswers.style.pointerEvents='auto'
-        },3000)
+            questionAndAnswers.style.pointerEvents = 'auto'
+        }, 3000)
     }
 
 })
 document.querySelectorAll(".icons a").forEach((el) => {
     el.addEventListener('click', (event) => {
         if (el.classList.contains('helpOfAudience')) {
-            helpOfAudience(questionAndAnswers.getAttribute(`data-current-step`), event)
+            helpOfAudienceShow(questionAndAnswers.getAttribute(`data-current-step`), event);
         } else if (el.classList.contains('call')) {
-            callFriend(questionAndAnswers.getAttribute(`data-current-step`), event)
+            callFriendShow(questionAndAnswers.getAttribute(`data-current-step`), event)
         } else if (el.classList.contains('50-50')) {
             fiftyFifty(questionAndAnswers.getAttribute(`data-current-step`), event)
         }
