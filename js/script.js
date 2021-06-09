@@ -1,7 +1,7 @@
 const DATA = [
     {
         question: 'Что из этого не является косметическим средством?',
-        answers:[
+        answers: [
             {
                 id: 1,
                 value: 'Помада',
@@ -24,8 +24,9 @@ const DATA = [
             },
         ]
     },
-    {question: 'Кто, в конце концов, скушал Колобка?',
-        answers:[
+    {
+        question: 'Кто, в конце концов, скушал Колобка?',
+        answers: [
             {
                 id: 5,
                 value: `Дед`,
@@ -48,8 +49,9 @@ const DATA = [
             },
         ]
     },
-    {question: 'Какой шахматной фигуры не существует?',
-        answers:[
+    {
+        question: 'Какой шахматной фигуры не существует?',
+        answers: [
             {
                 id: 9,
                 value: `Пешка`,
@@ -72,8 +74,9 @@ const DATA = [
             },
         ]
     },
-    {question: 'Что означает буква «О» в аббревиатуре ОРТ?',
-        answers:[
+    {
+        question: 'Что означает буква «О» в аббревиатуре ОРТ?',
+        answers: [
             {
                 id: 13,
                 value: `Олигархическое`,
@@ -96,8 +99,9 @@ const DATA = [
             },
         ]
     },
-    {question: 'Главный герой в романе Ф. И. Достоевского «Преступление и наказание»',
-        answers:[
+    {
+        question: 'Главный герой в романе Ф. И. Достоевского «Преступление и наказание»',
+        answers: [
             {
                 id: 17,
                 value: `Расторгуев`,
@@ -120,8 +124,9 @@ const DATA = [
             },
         ]
     },
-    {question: 'Как назывался первый советский фильм-катастрофа?',
-        answers:[
+    {
+        question: 'Как назывался первый советский фильм-катастрофа?',
+        answers: [
             {
                 id: 21,
                 value: `34-й скорый`,
@@ -144,8 +149,9 @@ const DATA = [
             },
         ]
     },
-    {question: 'Какой газ преобладает в атмосфере Земли?',
-        answers:[
+    {
+        question: 'Какой газ преобладает в атмосфере Земли?',
+        answers: [
             {
                 id: 25,
                 value: `Кислород`,
@@ -170,7 +176,7 @@ const DATA = [
     },
     {
         question: 'Как называется крепкий спиртной напиток из сока сахарного тростника?',
-        answers:[
+        answers: [
             {
                 id: 29,
                 value: 'Кальвадос',
@@ -193,8 +199,9 @@ const DATA = [
             },
         ]
     },
-    {question: 'Какую птицу американцы традиционно готовят на День Благодарения?',
-        answers:[
+    {
+        question: 'Какую птицу американцы традиционно готовят на День Благодарения?',
+        answers: [
             {
                 id: 33,
                 value: `Курицу`,
@@ -217,8 +224,9 @@ const DATA = [
             },
         ]
     },
-    {question: 'Какого цвета нет на государственном флаге Армении?',
-        answers:[
+    {
+        question: 'Какого цвета нет на государственном флаге Армении?',
+        answers: [
             {
                 id: 37,
                 value: `Красного`,
@@ -241,8 +249,9 @@ const DATA = [
             },
         ]
     },
-    {question: 'Какой город считается родиной джаза?',
-        answers:[
+    {
+        question: 'Какой город считается родиной джаза?',
+        answers: [
             {
                 id: 41,
                 value: `Чикаго`,
@@ -265,8 +274,9 @@ const DATA = [
             },
         ]
     },
-    {question: 'Премьера какой программы состоялась 1 января 1968 года?',
-        answers:[
+    {
+        question: 'Премьера какой программы состоялась 1 января 1968 года?',
+        answers: [
             {
                 id: 45,
                 value: `«Время»`,
@@ -289,8 +299,9 @@ const DATA = [
             },
         ]
     },
-    {question: 'Какой камень венчает Большую императорскую корону Российской империи, хранящуюся в Алмазном фонде?',
-        answers:[
+    {
+        question: 'Какой камень венчает Большую императорскую корону Российской империи, хранящуюся в Алмазном фонде?',
+        answers: [
             {
                 id: 49,
                 value: `Алмаз`,
@@ -313,8 +324,9 @@ const DATA = [
             },
         ]
     },
-    {question: 'Что в свободное время мастерил химик Д. И. Менделеев?',
-        answers:[
+    {
+        question: 'Что в свободное время мастерил химик Д. И. Менделеев?',
+        answers: [
             {
                 id: 53,
                 value: `Игрушки`,
@@ -337,8 +349,9 @@ const DATA = [
             },
         ]
     },
-    {question: 'С какой фигуры начинаются соревнования по городошному спорту?',
-        answers:[
+    {
+        question: 'С какой фигуры начинаются соревнования по городошному спорту?',
+        answers: [
             {
                 id: 57,
                 value: `Часовые`,
@@ -374,44 +387,41 @@ function random(min, max) {
 }
 
 
-const pointsDisplayShow = (index)=>{
+const pointsDisplayShow = (index) => {
     point[index].classList.add('active')
-    point[index - 1].classList.remove('active')
-    if(index >= 0){
-        result.innerHTML = `Вы проиграли!`
+    if (index != 0) {
+        point[index - 1].classList.remove('active')
     }
-    if(index === 4){
+    if (index === 4) {
         scoreCounter.querySelectorAll('li')[index].classList.add('fireproof-amount')
-        result.innerHTML = `Вы проиграли, осталась несгораеммая сумма 1 000$`
     }
-    if(index === 9){
+    if (index === 9) {
         scoreCounter.querySelectorAll('li')[index].classList.add('fireproof-amount')
-        result.innerHTML = `Вы проиграли, осталась несгораеммая сумма 32 000$`
     }
 }
-const pointsDisplayRemove = ()=>{
-    for (let i = 0;i < DATA.length;i++){
+const pointsDisplayRemove = () => {
+    for (let i = 0; i < DATA.length; i++) {
         scoreCounter.querySelectorAll('li')[i].classList.remove('active')
         scoreCounter.querySelectorAll('li')[i].classList.remove('fireproof-amount')
     }
 }
-const callFriend = (index,event)=> {
+const callFriend = (index, event) => {
     let correct;
     DATA[index].answers.map((el) => {
         if (el.correct) {
             correct = el.value
         }
     })
-        let answer = Math.random() < 0.5 ? DATA[index].answers[random(0, 3)].value : correct;
-        alert(`Алло, Привет, я думаю вариант ${answer}, но я не уверен`)
-        event.target.hidden = true;
+    let answer = Math.random() < 0.5 ? DATA[index].answers[random(0, 3)].value : correct;
+    alert(`Алло, Привет, я думаю вариант ${answer}, но я не уверен`)
+    event.target.hidden = true;
 }
 
 
-const helpOfAudience = (index,event)=>{
+const helpOfAudience = (index, event) => {
     let answer;
-    DATA[index].answers.map((el)=>{
-        if(el.correct){
+    DATA[index].answers.map((el) => {
+        if (el.correct) {
             answer = el.value
         }
     })
@@ -419,45 +429,47 @@ const helpOfAudience = (index,event)=>{
     event.target.hidden = true;
 }
 
-const fiftyFifty = (index,event) => {
+const fiftyFifty = (index, event) => {
     let wrongIndex = [];
     let elements = document.querySelectorAll(`.answer`);
-    for(let i = 0 ; i < elements.length; i++){
-        if(!JSON.parse(elements[i].getAttribute('data-correct'))){
+    for (let i = 0; i < elements.length; i++) {
+        if (!JSON.parse(elements[i].getAttribute('data-correct'))) {
             wrongIndex.push(i);
         }
     }
-    for(let i = 0; i < 2; i++){
+    for (let i = 0; i < 2; i++) {
         elements[wrongIndex[i]].hidden = true;
     }
     event.target.hidden = true;
 }
 
-const showAllIcons = ()=>{
-    document.querySelectorAll(`.icons a img`).forEach((el)=>{
+const showAllIcons = () => {
+    document.querySelectorAll(`.icons a img`).forEach((el) => {
         el.hidden = false;
     })
 }
 
-const end = ()=>{
+const end = () => {
     result.innerHTML = `Вы выиграли 1 000 000$`
 }
+const writeResult = (index) => {
+    if (index >= 0 && index <= 4) {
+        result.innerHTML = `Вы проиграли!!`
+    } else if (index >= 4 && index <= 9) {
+        result.innerHTML = `Вы проиграли Но осталась несгораемая сумаа 1 000$!!`
+    } else if (index >= 10) {
+        result.innerHTML = `Вы проиграли, осталась несгораеммая сумма 32 000$`
+    }
+}
 
-const renderQuestions = (index) =>{
+const renderQuestions = (index) => {
     questionAndAnswers.dataset.currentStep = index;
 
 
     const renderAnswers = () => {
-        return DATA[index].answers.map((el)=>{
+        return DATA[index].answers.map((el) => {
             return (
                 `
-		<!--<div class="col-6 answer text-center mb-4 radio-toolbar">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions ${index}" id="inlineRadio1" value="option1 ${el.id}" data-correct="${el.correct}">
-                <label class="form-check-label" for="inlineRadio1">${el.value}</label>     
-            </div> 
-		</div>-->
-		
 		<div class="col-6 d-grid gap-2">
 		  <button class="btn btn-primary mb-4 answer" type="button" data-correct="${el.correct}">${el.value}</button>
 		</div>
@@ -481,21 +493,23 @@ const renderQuestions = (index) =>{
 };
 
 
-questionAndAnswers.addEventListener('click',(event)=>{
-    if(JSON.parse(event.target.getAttribute('data-correct'))){ // чтоб строка стала логическим false
-        const nextQuestionIndex =  Number(questionAndAnswers.dataset.currentStep)+1
-            if(DATA.length === nextQuestionIndex ){
-                end()
-                myModal.show()
-                renderQuestions(0)
-                pointsDisplayRemove()
-                pointsDisplayShow(0)
-                showAllIcons()
-            }else{
-                renderQuestions(nextQuestionIndex)
-                pointsDisplayShow(nextQuestionIndex)
+questionAndAnswers.addEventListener('click', (event) => {
+    if (JSON.parse(event.target.getAttribute('data-correct'))) {                                                             // чтоб строка стала логическим false
+        const nextQuestionIndex = Number(questionAndAnswers.dataset.currentStep) + 1
+        if (DATA.length === nextQuestionIndex) {
+            end()
+            myModal.show()
+            renderQuestions(0)
+            pointsDisplayRemove()
+            pointsDisplayShow(0)
+            showAllIcons()
+        } else {
+            renderQuestions(nextQuestionIndex)
+            pointsDisplayShow(nextQuestionIndex)
+            writeResult(nextQuestionIndex)
         }
-    }else{
+    } else {
+        writeResult(questionAndAnswers.getAttribute(`data-current-step`))
         myModal.show()
         renderQuestions(0)
         pointsDisplayRemove()
@@ -504,39 +518,31 @@ questionAndAnswers.addEventListener('click',(event)=>{
     }
 
 })
-// document.querySelector(".call").addEventListener('click',(event)=>{
-//      callFriend(questionAndAnswers.getAttribute(`data-current-step`),event)
-//
-// })
-// document.querySelector(".helpOfAudience").addEventListener('click',(event)=>{
-//     helpOfAudience(questionAndAnswers.getAttribute(`data-current-step`),event)
-// })
-
-document.querySelectorAll(".icons a").forEach((el)=>{
-    el.addEventListener('click',(event)=>{
-        if(el.classList.contains('helpOfAudience')){
-            helpOfAudience(questionAndAnswers.getAttribute(`data-current-step`),event)
-        }else if(el.classList.contains('call')){
-            callFriend(questionAndAnswers.getAttribute(`data-current-step`),event)
-        }else if(el.classList.contains('50-50')){
-            fiftyFifty(questionAndAnswers.getAttribute(`data-current-step`),event)
+document.querySelectorAll(".icons a").forEach((el) => {
+    el.addEventListener('click', (event) => {
+        if (el.classList.contains('helpOfAudience')) {
+            helpOfAudience(questionAndAnswers.getAttribute(`data-current-step`), event)
+        } else if (el.classList.contains('call')) {
+            callFriend(questionAndAnswers.getAttribute(`data-current-step`), event)
+        } else if (el.classList.contains('50-50')) {
+            fiftyFifty(questionAndAnswers.getAttribute(`data-current-step`), event)
         }
 
-})
+    })
 })
 
 
 //questionAndAnswers.addEventListener('click',(e)=>{
-    //вперед или начало
-    //const nextQuestionIndex =  Number(questionAndAnswers.dataset.currentStep+1)
-    //if(e.target.classList.contains('btn-next')){
-      //  if(DATA.length === nextQuestionIndex){
-            // end()
-           // alert("конец")
-   // }else{
-          //  renderQuestions(nextQuestionIndex)
-     //   }
-   // }
+//вперед или начало
+//const nextQuestionIndex =  Number(questionAndAnswers.dataset.currentStep+1)
+//if(e.target.classList.contains('btn-next')){
+//  if(DATA.length === nextQuestionIndex){
+// end()
+// alert("конец")
+// }else{
+//  renderQuestions(nextQuestionIndex)
+//   }
+// }
 //})
 renderQuestions(0);
 
