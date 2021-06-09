@@ -1,61 +1,75 @@
-body{
+body {
     font-family: 'Roboto', sans-serif;
     background-color: #000041;
     color: white;
 }
-.logo img{
+
+.logo img {
     width: 100%;
     text-align: center;
 }
-.icon{
+
+.icon {
     display: inline-block;
 }
-.icon img{
-width: 100px;
+
+.icon img {
+    width: 100px;
 }
-.icon img:hover{
+
+.icon img:hover {
     transform: scale(1.2);
 }
 
-.score_counter{
+.score_counter {
 }
-.score_counter li{
+
+.score_counter li {
     font-size: 1.2em;
     margin: 2px;
 }
-.active{
+
+.active {
     font-weight: bold;
     border: 1px solid white;
     border-radius: 20px;
     background-color: #ffa500;
     color: #000041;
 }
+
 .fireproof-amount {
     color: #00fa08;
     font-weight: bold;
     list-style-type: disc;
 }
-.question div{
-    padding: 15px 0 15px 0;
-}
-.question div{
+
+.question {
     background-color: #002089;
     font-size: 1.5em;
+    padding: 15px 0 15px 0;
+    border: 2px solid #929eff;
+    border-radius: 20px;
 }
-.questionAndAnswers{
+
+.questionAndAnswers {
     justify-content: space-around
 }
-.answer{
+
+.answer {
     background-color: #002089;
     padding: 15px 0 15px 0;
     border: 2px solid #929eff;
+    border-radius: 30px;
 }
-.answer:hover{
+
+.answer:hover {
     background-color: orange;
 }
-.modal-dialog{
+
+.modal-content {
     color: black;
-    background-image: url("../img/Bg.jpg");
+    font-weight: bold;
+    border: 2px solid #ffffff;
 }
 
 

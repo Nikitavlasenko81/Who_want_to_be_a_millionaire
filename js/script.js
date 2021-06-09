@@ -380,12 +380,11 @@ const questionAndAnswers = document.querySelector('.questionAndAnswers');
 const scoreCounter = document.querySelector('.score_counter')
 const point = scoreCounter.querySelectorAll('li')
 const result = document.querySelector(".result")
-
+const fireproof = document.querySelector(".fireproof")
 function random(min, max) {
     let rand = min + Math.random() * (max + 1 - min);
     return Math.floor(rand);
 }
-
 
 const pointsDisplayShow = (index) => {
     point[index].classList.add('active')
@@ -399,6 +398,7 @@ const pointsDisplayShow = (index) => {
         scoreCounter.querySelectorAll('li')[index].classList.add('fireproof-amount')
     }
 }
+
 const pointsDisplayRemove = () => {
     for (let i = 0; i < DATA.length; i++) {
         scoreCounter.querySelectorAll('li')[i].classList.remove('active')
@@ -416,7 +416,6 @@ const callFriend = (index, event) => {
     alert(`Алло, Привет, я думаю вариант ${answer}, но я не уверен`)
     event.target.hidden = true;
 }
-
 
 const helpOfAudience = (index, event) => {
     let answer;
@@ -453,12 +452,16 @@ const end = () => {
     result.innerHTML = `Вы выиграли 1 000 000$`
 }
 const writeResult = (index) => {
-    if (index >= 0 && index <= 4) {
+    if (index >= 0 && index < 4) {
         result.innerHTML = `Вы проиграли!!`
+        fireproof.innerHTML = `Какакя жалость`
     } else if (index >= 4 && index <= 9) {
-        result.innerHTML = `Вы проиграли Но осталась несгораемая сумаа 1 000$!!`
+        result.innerHTML = `Вы проиграли`
+        fireproof.innerHTML = `Но осталась несгораемая сумаа 1 000$!!`
     } else if (index >= 10) {
-        result.innerHTML = `Вы проиграли, осталась несгораеммая сумма 32 000$`
+        result.innerHTML = `Поражение`
+        fireproof.innerHTML = `Но вы уходите домой не с пустыми руками у вас остается 32 000$ `
+
     }
 }
 
@@ -480,8 +483,8 @@ const renderQuestions = (index) => {
     questionAndAnswers.innerHTML =
         `
    <div class="row">
-        <div class="col question text-center mb-4">
-        <div class="alert" role="alert">
+        <div class="col text-center mb-4">
+        <div class="alert question " role="alert">
             ${DATA[index].question}
         </div>
         </div>
@@ -492,10 +495,10 @@ const renderQuestions = (index) => {
     `
 };
 
-
 questionAndAnswers.addEventListener('click', (event) => {
     if (JSON.parse(event.target.getAttribute('data-correct'))) {                                                             // чтоб строка стала логическим false
         const nextQuestionIndex = Number(questionAndAnswers.dataset.currentStep) + 1
+        //если закончились вопросы
         if (DATA.length === nextQuestionIndex) {
             end()
             myModal.show()
@@ -504,17 +507,35 @@ questionAndAnswers.addEventListener('click', (event) => {
             pointsDisplayShow(0)
             showAllIcons()
         } else {
-            renderQuestions(nextQuestionIndex)
-            pointsDisplayShow(nextQuestionIndex)
-            writeResult(nextQuestionIndex)
+            //если ответ верный
+            questionAndAnswers.style.pointerEvents='none'                                                               //убираем кликабельность чтоб нельзя выбрать другие варианты
+            setTimeout(()=>{
+                    event.target.style.backgroundColor = 'green';
+            },1000)
+
+            setTimeout(()=>{
+                renderQuestions(nextQuestionIndex)
+                pointsDisplayShow(nextQuestionIndex)
+                writeResult(nextQuestionIndex)
+                questionAndAnswers.style.pointerEvents='auto'                                                           //возвращаем кликабельность
+            },3000)
         }
     } else {
-        writeResult(questionAndAnswers.getAttribute(`data-current-step`))
-        myModal.show()
-        renderQuestions(0)
-        pointsDisplayRemove()
-        pointsDisplayShow(0)
-        showAllIcons()
+        //если ответ неверный
+        questionAndAnswers.style.pointerEvents='none'
+        setTimeout(()=>{
+            event.target.style.backgroundColor = 'red';
+        },1000)
+
+        setTimeout(()=>{
+            writeResult(questionAndAnswers.getAttribute(`data-current-step`))
+            myModal.show()
+            renderQuestions(0)
+            pointsDisplayRemove()
+            pointsDisplayShow(0)
+            showAllIcons()
+            questionAndAnswers.style.pointerEvents='auto'
+        },3000)
     }
 
 })
