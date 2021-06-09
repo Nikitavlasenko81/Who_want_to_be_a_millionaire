@@ -367,13 +367,14 @@ const questionAndAnswers = document.querySelector('.questionAndAnswers');
 const scoreCounter = document.querySelector('.score_counter')
 const point = scoreCounter.querySelectorAll('li')
 const result = document.querySelector(".result")
+
 function random(min, max) {
     let rand = min + Math.random() * (max + 1 - min);
     return Math.floor(rand);
 }
 
 
-const pointsDisplayShow = (index )=>{
+const pointsDisplayShow = (index)=>{
     point[index].classList.add('active')
     point[index - 1].classList.remove('active')
     if(index >= 0){
@@ -445,6 +446,7 @@ const end = ()=>{
 const renderQuestions = (index) =>{
     questionAndAnswers.dataset.currentStep = index;
 
+
     const renderAnswers = () => {
         return DATA[index].answers.map((el)=>{
             return (
@@ -481,22 +483,23 @@ const renderQuestions = (index) =>{
 
 questionAndAnswers.addEventListener('click',(event)=>{
     if(JSON.parse(event.target.getAttribute('data-correct'))){ // чтоб строка стала логическим false
-        console.log("Это правильно")
         const nextQuestionIndex =  Number(questionAndAnswers.dataset.currentStep)+1
-            if(DATA.length === nextQuestionIndex){
+            if(DATA.length === nextQuestionIndex ){
                 end()
                 myModal.show()
                 renderQuestions(0)
                 pointsDisplayRemove()
+                pointsDisplayShow(0)
                 showAllIcons()
             }else{
                 renderQuestions(nextQuestionIndex)
-                pointsDisplayShow(questionAndAnswers.dataset.currentStep - 1)
+                pointsDisplayShow(nextQuestionIndex)
         }
     }else{
         myModal.show()
         renderQuestions(0)
         pointsDisplayRemove()
+        pointsDisplayShow(0)
         showAllIcons()
     }
 
