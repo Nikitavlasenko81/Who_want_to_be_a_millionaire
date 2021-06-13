@@ -145,7 +145,7 @@ const DATA = [
             {
                 id: 24,
                 value: 'Воспоминания о будущем',
-                correct: true,
+                correct: false,
             },
         ]
     },
@@ -408,7 +408,8 @@ const pointsDisplayRemove = () => {
     }
 }
 
-const callFriendShow = (index, event) => {
+const showCallFriend = (index, event) => {
+    field.querySelector(`h3`).hidden = false;
     let correct;
     DATA[index].answers.map((el) => {
         if (el.correct) {
@@ -428,7 +429,7 @@ const callFriendHide = ()=>{
     field.querySelector(`img`).hidden = false;
 }
 
-const helpOfAudienceShow = (index, event) => {
+const showHelpOfAudience = (index, event) => {
 
     const ratingElementCreate = (percent, value) => {
         let rating = document.createElement('div')
@@ -480,8 +481,16 @@ const showAllIcons = () => {
     })
 }
 
-const end = () => {
-    result.innerHTML = `Вы выиграли 1 000 000$`
+const showCorrectAnswer = ()=> {
+    document.querySelectorAll(`.answer`).forEach((element)=>{
+        if(JSON.parse(element.getAttribute('data-correct'))){
+            element.style.backgroundColor = 'green';
+        }
+    })
+}
+
+const showWrongAnswer = (event)=>{
+    event.target.style.backgroundColor = 'red';
 }
 
 const writeResult = (index) => {
@@ -491,10 +500,12 @@ const writeResult = (index) => {
     } else if (index >= 4 && index <= 9) {
         result.innerHTML = `Вы проиграли`
         fireproof.innerHTML = `Но осталась несгораемая сумаа 1 000$!!`
-    } else if (index >= 10) {
+    } else if (index >= 10 && index <= 14) {
         result.innerHTML = `Поражение`
         fireproof.innerHTML = `Но вы уходите домой не с пустыми руками у вас остается 32 000$ `
-
+    } else{
+        result.innerHTML = `Ура вы самый умный!!!`
+        fireproof.innerHTML = `Вы выиграли 1 000 000$`
     }
 }
 
@@ -515,7 +526,7 @@ const renderQuestions = (index) => {
     }
     questionAndAnswers.innerHTML =
         `
-   <div class="row">
+   <div class="row" >
         <div class="col text-center mb-4">
         <div class="alert question " role="alert">
             ${DATA[index].question}
@@ -529,57 +540,64 @@ const renderQuestions = (index) => {
 };
 
 questionAndAnswers.addEventListener('click', (event) => {
-    if (JSON.parse(event.target.getAttribute('data-correct'))) {                                                         // чтоб строка стала логическим false
-        const nextQuestionIndex = Number(questionAndAnswers.dataset.currentStep) + 1
-        callFriendHide()
-        helpOfAudienceHide()                                                                                            //спрятать подсказку зала
-        //если закончились вопросы
-        if (DATA.length === nextQuestionIndex) {
-            end()
-            myModal.show()
-            renderQuestions(0)
-            pointsDisplayRemove()
-            pointsDisplayShow(0)
-            showAllIcons()
-        } else {
-            //если ответ верный
-            questionAndAnswers.style.pointerEvents = 'none'                                                               //убираем кликабельность чтоб нельзя выбрать другие варианты
-            setTimeout(() => {
-                event.target.style.backgroundColor = 'green';
-            }, 1000)
+    if(event.target.tagName == 'BUTTON') {
+            if (JSON.parse(event.target.getAttribute('data-correct'))) {                                                         // чтоб строка стала логическим false
+                const nextQuestionIndex = Number(questionAndAnswers.dataset.currentStep) + 1
+                callFriendHide()
+                helpOfAudienceHide();
+                //спрятать подсказку зала
+                //если закончились вопросы
+                if (DATA.length === nextQuestionIndex) {
+                    writeResult(nextQuestionIndex)
+                    myModal.show()
+                    renderQuestions(0)
+                    pointsDisplayRemove()
+                    pointsDisplayShow(0)
+                    showAllIcons()
+                } else {
+                    //если ответ верный
 
-            setTimeout(() => {
-                renderQuestions(nextQuestionIndex)
-                pointsDisplayShow(nextQuestionIndex)
-                writeResult(nextQuestionIndex)
-                questionAndAnswers.style.pointerEvents = 'auto'                                                           //возвращаем кликабельность
-            }, 3000)
-        }
-    } else {
-        //если ответ неверный
-        questionAndAnswers.style.pointerEvents = 'none'
-        setTimeout(() => {
-            event.target.style.backgroundColor = 'red';
-        }, 1000)
+                    questionAndAnswers.style.pointerEvents = 'none'                                                      //убираем кликабельность чтоб нельзя выбрать другие варианты
+                    setTimeout(() => {
+                        showCorrectAnswer()
+                    }, 1000)
 
-        setTimeout(() => {
-            writeResult(questionAndAnswers.getAttribute(`data-current-step`))
-            myModal.show()
-            renderQuestions(0)
-            pointsDisplayRemove()
-            pointsDisplayShow(0)
-            showAllIcons()
-            questionAndAnswers.style.pointerEvents = 'auto'
-        }, 3000)
+                    setTimeout(() => {
+                        renderQuestions(nextQuestionIndex)
+                        pointsDisplayShow(nextQuestionIndex)
+                        writeResult(nextQuestionIndex)
+                        questionAndAnswers.style.pointerEvents = 'auto'                                                           //возвращаем кликабельность
+                    }, 3000)
+                }
+            } else {
+                //если ответ неверный
+
+                questionAndAnswers.style.pointerEvents = 'none'
+                setTimeout(() => {
+                    showWrongAnswer(event)
+                    showCorrectAnswer()
+                }, 1000)
+
+                setTimeout(() => {
+                    writeResult(questionAndAnswers.getAttribute(`data-current-step`))
+                    myModal.show()
+                    renderQuestions(0)
+                    pointsDisplayRemove()
+                    pointsDisplayShow(0)
+                    showAllIcons()
+                    callFriendHide()
+                    helpOfAudienceHide()
+                    questionAndAnswers.style.pointerEvents = 'auto'
+                }, 3000)
+            }
     }
-
 })
 document.querySelectorAll(".icons a").forEach((el) => {
     el.addEventListener('click', (event) => {
         if (el.classList.contains('helpOfAudience')) {
-            helpOfAudienceShow(questionAndAnswers.getAttribute(`data-current-step`), event);
+            showHelpOfAudience(questionAndAnswers.getAttribute(`data-current-step`), event);
         } else if (el.classList.contains('call')) {
-            callFriendShow(questionAndAnswers.getAttribute(`data-current-step`), event)
+            showCallFriend(questionAndAnswers.getAttribute(`data-current-step`), event)
         } else if (el.classList.contains('50-50')) {
             fiftyFifty(questionAndAnswers.getAttribute(`data-current-step`), event)
         }
@@ -588,18 +606,42 @@ document.querySelectorAll(".icons a").forEach((el) => {
 })
 
 
-//questionAndAnswers.addEventListener('click',(e)=>{
-//вперед или начало
-//const nextQuestionIndex =  Number(questionAndAnswers.dataset.currentStep+1)
-//if(e.target.classList.contains('btn-next')){
-//  if(DATA.length === nextQuestionIndex){
-// end()
-// alert("конец")
-// }else{
-//  renderQuestions(nextQuestionIndex)
-//   }
-// }
-//})
+document.querySelector('.restart').addEventListener('click',(e)=>{
+    e.preventDefault();
+    renderQuestions(0)
+    pointsDisplayRemove()
+    pointsDisplayShow(0)
+    showAllIcons()
+})
+
+document.querySelector('.restart').addEventListener('dblclick',(e)=>{
+    e.preventDefault();
+    let createLevelForm = ()=>{
+        let form = document.createElement('form')
+        form.classList.add('enter-level')
+        form.innerHTML = `
+    <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Введите номер вопроса к которому перейти</label>
+    <input type="number" class="form-control" id="exampleInputEmail1">
+    <div id="emailHelp" class="form-text">Вы нашли тайное меню, теперь вы можете выбирать вопрос к которому хотите перейти</div>
+    <button type="button" class="btn btn-primary">Перейти</button>
+  </div>
+    `
+        return form
+    }
+    field.append(createLevelForm())
+    field.querySelector('img').hidden = true;
+    const levelForm = document.querySelector('.enter-level');
+    levelForm.addEventListener('click',(e)=>{
+        let level = levelForm.querySelector('input').value;
+        if( level>0 && level<=15){
+            pointsDisplayRemove()
+            renderQuestions(level - 1);
+            levelForm.hidden = true;
+            field.querySelector('img').hidden = false;
+        }
+    })
+})
 renderQuestions(0);
 
 
