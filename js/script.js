@@ -215,7 +215,7 @@ const DATA = [
             {
                 id: 35,
                 value: 'Утку',
-                correct: true,
+                correct: false,
             },
             {
                 id: 36,
@@ -375,6 +375,8 @@ const DATA = [
         ]
     },
 ]
+const CATCHWORDS = [`Вы уверены, что это правельный ответ ?`, `Вы уверены, в своем ответе ?`, `Вы так думаете ?`, `Может стоит подумать лучше ?`, `Вы склоняетесь к этому варианту ответа ?`, `Не торопитесь, на кону большие деньги...`, `Вы склоняетесь к этому варианту ответа ?`, `Это ваш конечный ответ ?`,]
+//переменные
 const myModal = new bootstrap.Modal(document.querySelector(".myModal"))
 const questionAndAnswers = document.querySelector('.questionAndAnswers');
 const scoreCounter = document.querySelector('.score_counter')
@@ -383,11 +385,13 @@ const result = document.querySelector(".result")
 const fireproof = document.querySelector(".fireproof")
 const field = document.querySelector('.field')
 
+//генератор рандомных чисел
 function random(min, max) {
     let rand = min + Math.random() * (max + 1 - min);
     return Math.floor(rand);
 }
 
+//перемещение выделения суммы
 const pointsDisplayShow = (index) => {
     point[index].classList.add('active')
     if (index != 0) {
@@ -401,6 +405,7 @@ const pointsDisplayShow = (index) => {
     }
 }
 
+//очещение выделений списка сумм
 const pointsDisplayRemove = () => {
     for (let i = 0; i < DATA.length; i++) {
         scoreCounter.querySelectorAll('li')[i].classList.remove('active')
@@ -408,6 +413,7 @@ const pointsDisplayRemove = () => {
     }
 }
 
+//показать елемент с подсказкой "звонок другу"
 const showCallFriend = (index, event) => {
     field.querySelector(`h3`).hidden = false;
     let correct;
@@ -424,11 +430,13 @@ const showCallFriend = (index, event) => {
     event.target.hidden = true;
 }
 
-const callFriendHide = ()=>{
+//скрыть елемент с подсказкой "звонок другу"
+const callFriendHide = () => {
     field.querySelector(`h3`).hidden = true;
     field.querySelector(`img`).hidden = false;
 }
 
+//показать елемент с подсказкой "Помощь зала"
 const showHelpOfAudience = (index, event) => {
 
     const ratingElementCreate = (percent, value) => {
@@ -454,13 +462,15 @@ const showHelpOfAudience = (index, event) => {
     event.target.hidden = true;
 }
 
-const helpOfAudienceHide = ()=>{
-    document.querySelectorAll(`.progress-container`).forEach((el)=>{
+//скрыть елемент с подсказкой "Помощь зала"
+const helpOfAudienceHide = () => {
+    document.querySelectorAll(`.progress-container`).forEach((el) => {
         el.hidden = true;
     })
     document.querySelector(`.field img`).hidden = false;
 }
 
+//убрать два варианта ответа
 const fiftyFifty = (index, event) => {
     let wrongIndex = [];
     let elements = document.querySelectorAll(`.answer`);
@@ -475,24 +485,28 @@ const fiftyFifty = (index, event) => {
     event.target.hidden = true;
 }
 
+//показать все иконки помощников
 const showAllIcons = () => {
     document.querySelectorAll(`.icons a img`).forEach((el) => {
         el.hidden = false;
     })
 }
 
-const showCorrectAnswer = ()=> {
-    document.querySelectorAll(`.answer`).forEach((element)=>{
-        if(JSON.parse(element.getAttribute('data-correct'))){
+//подсветить правельный вариант ответа
+const showCorrectAnswer = () => {
+    document.querySelectorAll(`.answer`).forEach((element) => {
+        if (JSON.parse(element.getAttribute('data-correct'))) {
             element.style.backgroundColor = 'green';
         }
     })
 }
 
-const showWrongAnswer = (event)=>{
+//подсветить неправельный вариант ответа
+const showWrongAnswer = (event) => {
     event.target.style.backgroundColor = 'red';
 }
 
+//записать несгораемые суммы
 const writeResult = (index) => {
     if (index >= 0 && index < 4) {
         result.innerHTML = `Вы проиграли!!`
@@ -503,12 +517,22 @@ const writeResult = (index) => {
     } else if (index >= 10 && index <= 14) {
         result.innerHTML = `Поражение`
         fireproof.innerHTML = `Но вы уходите домой не с пустыми руками у вас остается 32 000$ `
-    } else{
+    } else {
         result.innerHTML = `Ура вы самый умный!!!`
         fireproof.innerHTML = `Вы выиграли 1 000 000$`
     }
 }
 
+//вызов confirm с вероятностью
+const randConfirm = () => {
+    let result = true
+    if (Math.random() < 0.4) {
+        result = confirm(CATCHWORDS[random(0, CATCHWORDS.length)])
+    }
+    return result
+}
+
+//сгенерировать вопрос
 const renderQuestions = (index) => {
     questionAndAnswers.dataset.currentStep = index;
 
@@ -539,13 +563,15 @@ const renderQuestions = (index) => {
     `
 };
 
+//событие нажатия на вариант ответа
 questionAndAnswers.addEventListener('click', (event) => {
-    if(event.target.tagName == 'BUTTON') {
-            if (JSON.parse(event.target.getAttribute('data-correct'))) {                                                         // чтоб строка стала логическим false
+    if (event.target.tagName == 'BUTTON') {
+        if (randConfirm()) {                                                                                            // вопрос ведущего с вероятностью 60%
+            if (JSON.parse(event.target.getAttribute('data-correct'))) {                                                // чтоб строка стала логическим false
                 const nextQuestionIndex = Number(questionAndAnswers.dataset.currentStep) + 1
-                callFriendHide()
+                callFriendHide()                                                                                        // спрятать помошники
                 helpOfAudienceHide();
-                //спрятать подсказку зала
+
                 //если закончились вопросы
                 if (DATA.length === nextQuestionIndex) {
                     writeResult(nextQuestionIndex)
@@ -555,23 +581,23 @@ questionAndAnswers.addEventListener('click', (event) => {
                     pointsDisplayShow(0)
                     showAllIcons()
                 } else {
-                    //если ответ верный
 
-                    questionAndAnswers.style.pointerEvents = 'none'                                                      //убираем кликабельность чтоб нельзя выбрать другие варианты
+                    //если ответ верный
+                    questionAndAnswers.style.pointerEvents = 'none'                                                     //убираем кликабельность чтоб нельзя выбрать другие варианты
                     setTimeout(() => {
-                        showCorrectAnswer()
+                        showCorrectAnswer()                                                                             //вывод правельного ответа
                     }, 1000)
 
                     setTimeout(() => {
-                        renderQuestions(nextQuestionIndex)
+                        renderQuestions(nextQuestionIndex)                                                              //следующий вопрос, переместить сумму, записать балы
                         pointsDisplayShow(nextQuestionIndex)
                         writeResult(nextQuestionIndex)
-                        questionAndAnswers.style.pointerEvents = 'auto'                                                           //возвращаем кликабельность
+                        questionAndAnswers.style.pointerEvents = 'auto'                                                 //возвращаем кликабельность
                     }, 3000)
                 }
             } else {
-                //если ответ неверный
 
+                //если ответ неверный
                 questionAndAnswers.style.pointerEvents = 'none'
                 setTimeout(() => {
                     showWrongAnswer(event)
@@ -590,8 +616,11 @@ questionAndAnswers.addEventListener('click', (event) => {
                     questionAndAnswers.style.pointerEvents = 'auto'
                 }, 3000)
             }
+        }
     }
 })
+
+//добавление на иконки помощников события
 document.querySelectorAll(".icons a").forEach((el) => {
     el.addEventListener('click', (event) => {
         if (el.classList.contains('helpOfAudience')) {
@@ -605,8 +634,8 @@ document.querySelectorAll(".icons a").forEach((el) => {
     })
 })
 
-
-document.querySelector('.restart').addEventListener('click',(e)=>{
+//рестарт и доп. меню
+document.querySelector('.restart').addEventListener('click', (e) => {
     e.preventDefault();
     renderQuestions(0)
     pointsDisplayRemove()
@@ -614,9 +643,9 @@ document.querySelector('.restart').addEventListener('click',(e)=>{
     showAllIcons()
 })
 
-document.querySelector('.restart').addEventListener('dblclick',(e)=>{
+document.querySelector('.restart').addEventListener('dblclick', (e) => {
     e.preventDefault();
-    let createLevelForm = ()=>{
+    let createLevelForm = () => {
         let form = document.createElement('form')
         form.classList.add('enter-level')
         form.innerHTML = `
@@ -628,13 +657,13 @@ document.querySelector('.restart').addEventListener('dblclick',(e)=>{
   </div>
     `
         return form
-    }
+    }                                                                                      //создание элемента для ввода уровня
     field.append(createLevelForm())
     field.querySelector('img').hidden = true;
     const levelForm = document.querySelector('.enter-level');
-    levelForm.addEventListener('click',(e)=>{
+    levelForm.addEventListener('click', (e) => {
         let level = levelForm.querySelector('input').value;
-        if( level>0 && level<=15){
+        if (level > 0 && level <= 15) {
             pointsDisplayRemove()
             renderQuestions(level - 1);
             levelForm.hidden = true;
